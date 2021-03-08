@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include arfad *.css
+recursive-include arfad *.csv
+recursive-include arfad *.html
+recursive-include arfad *.ico
+recursive-include arfad *.js
+recursive-include arfad *.json
+recursive-include arfad *.md
+recursive-include arfad *.png
+recursive-include arfad *.py
+recursive-include arfad *.svg
+recursive-include arfad *.txt
+recursive-exclude arfad *.pyc
