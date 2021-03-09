@@ -62,6 +62,7 @@
   },
   {
    "fetch_from": "supplier.supplier_name",
+   "fetch_if_empty": 1,
    "fieldname": "supplier_name",
    "fieldtype": "Data",
    "label": "Supplier Name"
@@ -82,7 +83,7 @@
   }
  ],
  "istable": 1,
- "modified": "2021-03-09 13:29:03.770358",
+ "modified": "2021-03-09 12:24:56.696843",
  "modified_by": "Administrator",
  "module": "Arfad",
  "name": "Expenses Entry Detail",
