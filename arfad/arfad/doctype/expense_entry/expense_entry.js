@@ -68,6 +68,30 @@ frappe.ui.form.on('Expense Entry', {
 			frm.set_df_property("paid_from_account", "reqd", 1);
 		}
 	},
+	validate: function (frm) {
+		for(var i=0;i<=frm.doc.expenses_entry_detail.length-1;i++){
+			if (frm.doc.expenses_entry_detail[i].account_type=='Tax'){
+	
+				if (!frm.doc.expenses_entry_detail[i].supplier && !frm.doc.expenses_entry_detail[i].supplier_name && !frm.doc.expenses_entry_detail[i].supplier_tax_id){
+					frappe.throw({message:__("Please enter Supplier, Supplier Name, Supplier Tax ID for row #")+(i+1), 
+					title: __("Mandatory Supplier Details.")});
+				}				
+				else if (!frm.doc.expenses_entry_detail[i].supplier){
+					frappe.throw({message:__("Please enter Supplier for row #")+(i+1), 
+					title: __("Mandatory Supplier Details.")});
+				}				
+				else if (!frm.doc.expenses_entry_detail[i].supplier_name){
+					frappe.throw({message:__("Please enter Supplier Name for row #")+(i+1), 
+					title: __("Mandatory Supplier Details.")});
+				}
+				else if (!frm.doc.expenses_entry_detail[i].supplier_tax_id){
+					frappe.throw({message:__("Please enter Supplier Tax ID for row #")+(i+1), 
+					title: __("Mandatory Supplier Details.")});
+				}								
+
+			}
+		}
+	},
 	refresh: function (frm) {
 		if (frm.doc.docstatus == 1) {
 			frm.add_custom_button(__('View Accounting Ledger'), function () {
