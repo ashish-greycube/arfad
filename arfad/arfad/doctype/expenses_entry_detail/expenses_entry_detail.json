@@ -5,10 +5,14 @@
  "engine": "InnoDB",
  "field_order": [
   "expense_account",
+  "account_type",
+  "cost_center",
   "amount",
   "expense_remarks",
   "column_break_4",
-  "cost_center"
+  "supplier",
+  "supplier_name",
+  "supplier_tax_id"
  ],
  "fields": [
   {
@@ -30,7 +34,7 @@
    "reqd": 1
   },
   {
-   "columns": 5,
+   "columns": 3,
    "fieldname": "expense_remarks",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -48,10 +52,36 @@
    "label": "Cost Center",
    "options": "Cost Center",
    "reqd": 1
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fetch_from": "supplier.supplier_name",
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "label": "Supplier Name"
+  },
+  {
+   "fetch_from": "supplier.tax_id",
+   "fieldname": "supplier_tax_id",
+   "fieldtype": "Data",
+   "label": "Supplier Tax ID"
+  },
+  {
+   "fetch_from": "expense_account.account_type",
+   "fieldname": "account_type",
+   "fieldtype": "Data",
+   "label": "Account Type",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2021-03-09 09:06:49.649383",
+ "modified": "2021-03-09 09:54:13.742893",
  "modified_by": "Administrator",
  "module": "Arfad",
  "name": "Expenses Entry Detail",
