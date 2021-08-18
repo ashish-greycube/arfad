@@ -29,6 +29,14 @@ frappe.ui.form.on('Expense Entry', {
 			frm.set_df_property("mode_of_payment", "reqd", 1);
 			frm.set_df_property("paid_from_account", "reqd", 1);
 		}
+		if (frm.doc.expense_type == 'Employee Petty Cash') {
+			frm.set_value('party_type', 'Employee');
+			frm.set_df_property("party", "reqd", 1);
+			frm.set_df_property("mode_of_payment", "reqd", 0);
+			frm.set_df_property("paid_from_account", "reqd", 0);			
+			// let default_payable_account = (await frappe.db.get_value("Company", frm.doc.company, "default_employee_petty_cash_payable_account_cf")).message.default_employee_petty_cash_payable_account_cf;
+			// frm.set_value('payable_account', default_payable_account)			
+		}		
 	},
 	onload_post_render:async function (frm) {
 
@@ -47,6 +55,14 @@ frappe.ui.form.on('Expense Entry', {
 			frm.set_df_property("party", "reqd", 0);
 			frm.set_df_property("mode_of_payment", "reqd", 1);
 			frm.set_df_property("paid_from_account", "reqd", 1);
+		}
+		else if (frm.doc.expense_type == 'Employee Petty Cash') {
+			frm.set_value('party_type', 'Employee');
+			frm.set_df_property("party", "reqd", 1);
+			frm.set_df_property("mode_of_payment", "reqd", 0);
+			frm.set_df_property("paid_from_account", "reqd", 0);			
+			let default_payable_account = (await frappe.db.get_value("Company", frm.doc.company, "default_employee_petty_cash_payable_account_cf")).message.default_employee_petty_cash_payable_account_cf;
+			frm.set_value('payable_account', default_payable_account)			
 		}		
 
 	},
@@ -66,6 +82,14 @@ frappe.ui.form.on('Expense Entry', {
 			frm.set_df_property("party", "reqd", 0);
 			frm.set_df_property("mode_of_payment", "reqd", 1);
 			frm.set_df_property("paid_from_account", "reqd", 1);
+		}
+		else if (frm.doc.expense_type == 'Employee Petty Cash') {
+			frm.set_value('party_type', 'Employee');
+			frm.set_df_property("party", "reqd", 1);
+			frm.set_df_property("mode_of_payment", "reqd", 0);
+			frm.set_df_property("paid_from_account", "reqd", 0);			
+			let default_payable_account = (await frappe.db.get_value("Company", frm.doc.company, "default_employee_petty_cash_payable_account_cf")).message.default_employee_petty_cash_payable_account_cf;
+			frm.set_value('payable_account', default_payable_account)			
 		}
 	},
 	validate: function (frm) {

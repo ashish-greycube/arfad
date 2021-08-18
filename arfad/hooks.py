@@ -27,6 +27,7 @@ app_license = "MIT"
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Company" : "public/js/company.js"}	
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -56,7 +57,7 @@ app_license = "MIT"
 
 # before_install = "arfad.install.before_install"
 # after_install = "arfad.install.after_install"
-
+after_migrate="arfad.migrations.after_migrations"
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
@@ -127,3 +128,11 @@ app_license = "MIT"
 # 	"Task": "arfad.task.get_dashboard_data"
 # }
 
+fixtures = [
+
+      {
+        "dt": "Custom Field", 
+        "filters": [["name", "in", ["Company-default_employee_petty_cash_payable_account_cf","Company-default_vat_tax_account_cf"]]]
+      }  			     
+
+]

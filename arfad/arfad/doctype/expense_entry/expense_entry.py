@@ -11,6 +11,39 @@ from erpnext.accounts.general_ledger import make_gl_entries
 from erpnext.controllers.accounts_controller import AccountsController
 
 class ExpenseEntry(AccountsController):
+
+	def add_vat(self):
+		default_vat_tax_account = frappe.db.get_value('Company', self.company, 'default_vat_tax_account_cf')
+		tax_rate=frappe.db.get_value('Account', default_vat_tax_account, 'tax_rate')
+
+		new_expenses_entry_detail=[]
+		for d in self.get('expenses_entry_detail'):
+			new_expenses_entry_detail.append(d)
+			new_expenses_entry_detail.append({
+				"expense_account":default_vat_tax_account,
+				"account_type":"tax",
+				"cost_center":d.cost_center,
+				"amount":(tax_rate/100.0)*d.amount,
+				"expense_remarks": "VAT for  {0} amt {1}".format(d.expense_account,d.amount),
+				"supplier":d.supplier,
+				"supplier_name":d.supplier_name,
+				"supplier_tax_id":d.supplier_tax_id
+			})
+
+		self.expenses_entry_detail=[]
+
+		for d in new_expenses_entry_detail:
+			self.append('expenses_entry_detail',{
+				"expense_account":d.get('expense_account'),
+				"account_type":d.get('tax'),
+				"cost_center":d.get('cost_center'),
+				"amount":d.get('amount'),
+				"expense_remarks": d.get('expense_remarks'),
+				"supplier":d.get('supplier'),
+				"supplier_name":d.get('supplier_name'),
+				"supplier_tax_id":d.get('supplier_tax_id')
+			})
+
 	def validate(self):
 		self.validate_empty_accounts_table()
 		self.calculate_total_amount()
@@ -51,10 +84,15 @@ class ExpenseEntry(AccountsController):
 		if self.expense_type=='Cash':
 			gl_entries = self.get_gl_entries()
 			make_gl_entries(gl_entries, cancel)
+		
 		elif self.expense_type=='Credit':
-
 			gl_entries_for_credit = self.get_gl_entries_for_credit()
 			make_gl_entries(gl_entries_for_credit, cancel)			
+		
+		elif self.expense_type=='Employee Petty Cash':
+			gl_entries_for_credit = self.get_gl_entries_for_credit()
+			make_gl_entries(gl_entries_for_credit, cancel)
+
 
 	def get_gl_entries_for_credit(self):
 
@@ -200,10 +238,12 @@ class ExpenseEntry(AccountsController):
 	def validate_account_details_for_credit(self):
 		if not self.party_type:
 			frappe.throw(_("Please set party type"))
-		if self.party_type!='Supplier':
-				frappe.throw(_("Please set party type as Supplier"))			
-		if not self.party:
+		# if self.party_type!='Supplier':
+		# 		frappe.throw(_("Please set party type as Supplier"))			
+		if (self.party_type =='Supplier' and (not self.party)):
 			frappe.throw(_("Please set Supplier name"))
+		if (self.party_type =='Employee' and (not self.party)):
+			frappe.throw(_("Please set Employee name"))			
 
 		if not self.payable_account:
 			frappe.throw(_("Please set default payable account for the company {0}").format(getlink("Company",self.company)))
