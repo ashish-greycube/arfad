@@ -18,6 +18,7 @@
   "company",
   "cost_center",
   "expense_detail_section",
+  "check_all",
   "add_vat",
   "expenses_entry_detail",
   "section_break_15",
@@ -180,15 +181,21 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.expenses_entry_detail",
+   "depends_on": "eval:(doc.expenses_entry_detail && doc.docstatus==0)",
    "fieldname": "add_vat",
    "fieldtype": "Button",
    "label": "Add VAT",
    "options": "add_vat"
+  },
+  {
+   "depends_on": "eval:doc.docstatus==0",
+   "fieldname": "check_all",
+   "fieldtype": "Button",
+   "label": "Check All"
   }
  ],
  "is_submittable": 1,
- "modified": "2021-08-18 13:41:34.390126",
+ "modified": "2021-11-10 15:14:39.438034",
  "modified_by": "Administrator",
  "module": "Arfad",
  "name": "Expense Entry",

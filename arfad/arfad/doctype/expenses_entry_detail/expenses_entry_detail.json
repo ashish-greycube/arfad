@@ -10,6 +10,7 @@
   "amount",
   "expense_remarks",
   "column_break_4",
+  "apply_vat",
   "supplier",
   "supplier_name",
   "supplier_tax_id"
@@ -34,7 +35,7 @@
    "reqd": 1
   },
   {
-   "columns": 3,
+   "columns": 2,
    "fieldname": "expense_remarks",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -54,6 +55,7 @@
    "reqd": 1
   },
   {
+   "columns": 2,
    "fieldname": "supplier",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -80,10 +82,18 @@
    "fieldtype": "Data",
    "label": "Account Type",
    "read_only": 1
+  },
+  {
+   "columns": 1,
+   "default": "0",
+   "fieldname": "apply_vat",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "VAT"
   }
  ],
  "istable": 1,
- "modified": "2021-03-09 12:24:56.696843",
+ "modified": "2021-11-10 14:33:39.193530",
  "modified_by": "Administrator",
  "module": "Arfad",
  "name": "Expenses Entry Detail",

@@ -19,16 +19,17 @@ class ExpenseEntry(AccountsController):
 		new_expenses_entry_detail=[]
 		for d in self.get('expenses_entry_detail'):
 			new_expenses_entry_detail.append(d)
-			new_expenses_entry_detail.append({
-				"expense_account":default_vat_tax_account,
-				"account_type":"tax",
-				"cost_center":d.cost_center,
-				"amount":(tax_rate/100.0)*d.amount,
-				"expense_remarks": "VAT for  {0} amt {1}".format(d.expense_account,d.amount),
-				"supplier":d.supplier,
-				"supplier_name":d.supplier_name,
-				"supplier_tax_id":d.supplier_tax_id
-			})
+			if d.apply_vat==1:
+				new_expenses_entry_detail.append({
+					"expense_account":default_vat_tax_account,
+					"account_type":"tax",
+					"cost_center":d.cost_center,
+					"amount":(tax_rate/100.0)*d.amount,
+					"expense_remarks": "VAT for  {0} amt {1}".format(d.expense_account,d.amount),
+					"supplier":d.supplier,
+					"supplier_name":d.supplier_name,
+					"supplier_tax_id":d.supplier_tax_id
+				})
 
 		self.expenses_entry_detail=[]
 

@@ -147,6 +147,14 @@ frappe.ui.form.on('Expense Entry', {
 			});
 		}
 	},
+	check_all: function (frm) {
+		var items=frm.doc.expenses_entry_detail
+		for(var i=0, l=items.length; i<l; i++) {
+			items[i].apply_vat=1
+		}		
+		frm.refresh_field('expenses_entry_detail')
+
+	},
 	mode_of_payment: function (frm) {
 		if (frm.doc.mode_of_payment && frm.doc.company) {
 			frappe.call({
