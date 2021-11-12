@@ -36,7 +36,7 @@ class ExpenseEntry(AccountsController):
 		for d in new_expenses_entry_detail:
 			self.append('expenses_entry_detail',{
 				"expense_account":d.get('expense_account'),
-				"account_type":d.get('tax'),
+				"account_type":d.get('account_type'),
 				"cost_center":d.get('cost_center'),
 				"amount":d.get('amount'),
 				"expense_remarks": d.get('expense_remarks'),
