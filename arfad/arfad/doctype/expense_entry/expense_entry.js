@@ -93,6 +93,7 @@ frappe.ui.form.on('Expense Entry', {
 		}
 	},
 	validate: function (frm) {
+		if (frm.doc.party_type=='Supplier') {
 		for(var i=0;i<=frm.doc.expenses_entry_detail.length-1;i++){
 			if (frm.doc.expenses_entry_detail[i].account_type=='Tax'){
 	
@@ -115,6 +116,7 @@ frappe.ui.form.on('Expense Entry', {
 
 			}
 		}
+	}
 	},
 	refresh: function (frm) {
 		if (frm.doc.docstatus == 1) {

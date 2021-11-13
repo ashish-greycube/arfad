@@ -22,7 +22,7 @@ class ExpenseEntry(AccountsController):
 			if d.apply_vat==1:
 				new_expenses_entry_detail.append({
 					"expense_account":default_vat_tax_account,
-					"account_type":"tax",
+					"account_type":"Tax",
 					"cost_center":d.cost_center,
 					"amount":(tax_rate/100.0)*d.amount,
 					"expense_remarks": "VAT for  {0} amt {1}".format(d.expense_account,d.amount),
