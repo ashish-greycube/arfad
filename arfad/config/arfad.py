@@ -15,7 +15,14 @@ def get_data():
 					"label": _("Expense Entry"),
 					"description": _("Expense Entry"),
 					"hide_count": False
-				}
+				},
+				{
+					"type": "doctype",
+					"name": "Expense Entry Settings",
+					"label": _("Expense Entry Settings"),
+					"description": _("Expense Entry Settings"),
+					"hide_count": True
+				}				
 			]
 		},
 		{
