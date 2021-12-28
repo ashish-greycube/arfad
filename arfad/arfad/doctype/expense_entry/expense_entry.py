@@ -15,22 +15,44 @@ class ExpenseEntry(AccountsController):
 	def add_vat(self):
 		default_vat_tax_account = frappe.db.get_value('Company', self.company, 'default_vat_tax_account_cf')
 		tax_rate=frappe.db.get_value('Account', default_vat_tax_account, 'tax_rate')
+		is_vat_included = frappe.db.get_single_value('Expense Entry Settings', 'is_vat_included') or 0
 
 		new_expenses_entry_detail=[]
 		for d in self.get('expenses_entry_detail'):
-			new_expenses_entry_detail.append(d)
+			orignal_amount=d.amount
+			amount_without_tax=flt((d.amount/(tax_rate+100))*100,2)
+			tax_amount=flt(d.amount-amount_without_tax,2)			
+			if is_vat_included==0:
+				new_expenses_entry_detail.append(d)
+			elif is_vat_included==1:
+				d.amount=amount_without_tax
+				new_expenses_entry_detail.append(d)
 			if d.apply_vat==1:
-				new_expenses_entry_detail.append({
-					"expense_account":default_vat_tax_account,
-					"account_type":"Tax",
-					"cost_center":d.cost_center,
-					"amount":(tax_rate/100.0)*d.amount,
-					"expense_remarks": "VAT for  {0} amt {1}".format(d.expense_account,d.amount),
-					"supplier":d.supplier,
-					"supplier_name":d.supplier_name,
-					"supplier_tax_id":d.supplier_tax_id
-				})
-
+				if is_vat_included==0:
+					new_expenses_entry_detail.append({
+						"expense_account":default_vat_tax_account,
+						"account_type":"Tax",
+						"cost_center":d.cost_center,
+						"amount":(tax_rate/100.0)*d.amount,
+						"expense_remarks": "VAT for  {0} amt {1}".format(d.expense_account,d.amount),
+						"supplier":d.supplier,
+						"supplier_name":d.supplier_name,
+						"supplier_tax_id":d.supplier_tax_id,
+						"invoice_no_cf":d.invoice_no_cf
+					})
+				elif is_vat_included==1:
+					new_expenses_entry_detail.append({
+						"expense_account":default_vat_tax_account,
+						"account_type":"Tax",
+						"cost_center":d.cost_center,
+						"amount":tax_amount,
+						"expense_remarks": "VAT for  {0} is {1} , out of total amt {2}".format(d.expense_account,tax_amount,orignal_amount),
+						"supplier":d.supplier,
+						"supplier_name":d.supplier_name,
+						"supplier_tax_id":d.supplier_tax_id,
+						"invoice_no_cf":d.invoice_no_cf
+					})
+										
 		self.expenses_entry_detail=[]
 
 		for d in new_expenses_entry_detail:
@@ -42,7 +64,8 @@ class ExpenseEntry(AccountsController):
 				"expense_remarks": d.get('expense_remarks'),
 				"supplier":d.get('supplier'),
 				"supplier_name":d.get('supplier_name'),
-				"supplier_tax_id":d.get('supplier_tax_id')
+				"supplier_tax_id":d.get('supplier_tax_id'),
+				"invoice_no_cf":d.get("invoice_no_cf")
 			})
 
 	def validate(self):
