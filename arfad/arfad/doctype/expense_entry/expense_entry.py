@@ -25,7 +25,8 @@ class ExpenseEntry(AccountsController):
 			if is_vat_included==0:
 				new_expenses_entry_detail.append(d)
 			elif is_vat_included==1:
-				d.amount=amount_without_tax
+				if d.apply_vat==1:
+					d.amount=amount_without_tax
 				new_expenses_entry_detail.append(d)
 			if d.apply_vat==1:
 				if is_vat_included==0:
