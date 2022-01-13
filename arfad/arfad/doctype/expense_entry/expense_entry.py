@@ -11,7 +11,7 @@ from erpnext.accounts.general_ledger import make_gl_entries
 from erpnext.controllers.accounts_controller import AccountsController
 
 class ExpenseEntry(AccountsController):
-
+	@frappe.whitelist()
 	def add_vat(self):
 		default_vat_tax_account = frappe.db.get_value('Company', self.company, 'default_vat_tax_account_cf')
 		tax_rate=frappe.db.get_value('Account', default_vat_tax_account, 'tax_rate')
