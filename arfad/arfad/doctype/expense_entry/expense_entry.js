@@ -1,6 +1,16 @@
 // Copyright (c) 2019, GreyCube Technologies and contributors
 // For license information, please see license.txt
 frappe.ui.form.on('Expense Entry', {
+	add_vat: function (frm) {
+		frm.call({
+			method: "add_vat",
+			doc:frm.doc,
+			freeze: true,
+			callback: function(r) {
+				frm.dirty();
+			}
+		});		
+	},
 	setup: function (frm) {
 		const default_company = frappe.defaults.get_default('company');
 		frm.set_value("company", default_company);
