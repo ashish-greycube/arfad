@@ -25,6 +25,14 @@ frappe.ui.form.on('Expense Entry', {
 			};
 		});	
 
+		frm.set_query("cost_center", "expenses_entry_detail", function () {
+			return {
+				filters: {
+					company: frm.doc.company
+				}
+			};
+		});
+				
 		frm.set_query("paid_from_account", function () {
 			return {
 				"filters": {
